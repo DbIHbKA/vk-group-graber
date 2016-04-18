@@ -4,19 +4,28 @@
 import requests
 
 
-class Groups(object):
-    def __init__(self, group_id):
-        self.__gid = group_id
+def getById(gid, fields=None, access_token=None):
+    """
+    Get info about group by gid or it's name. You can extract
+    group name from it's link.
+    """
+    extended_fields = fields or {}
+    extended_fields.update({"group_id": gid})
+    return vkapirequest("groups.getById",
+                        fields=extended_fields,
+                        access_token=access_token)
 
-    def getById(self, fields=None, access_token=None):
-        return vkapirequest("groups.getById",
-                            fields=fields,
-                            access_token=access_token)
 
-    def getMembers(self, fields=None, access_token=None):
-        return vkapirequest("groups.getMembers",
-                            fields=fields,
-                            access_token=access_token)
+def getMembers(gid, fields=None, access_token=None):
+    """
+    Here gid must be group id (number). That my opinion.
+    You can get it with getById function.
+    """
+    extended_fields = fields or {}
+    extended_fields.update({"group_id": gid})
+    return vkapirequest("groups.getMembers",
+                        fields=extended_fields,
+                        access_token=access_token)
 
 
 # ---- Utils -----
